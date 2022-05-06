@@ -1,0 +1,16 @@
+{%extends 'base.html.twig'%}
+
+{%block body%}
+<table class="table">
+    <th>id</th>
+    <th>nom</th>
+    <th>prenom</th>
+    {%for etudiant in etudiants%}
+        <tr>
+            <td>{{etudiant.id}}</td>
+            <td>{{etudiant.nom}}</td>
+            <td>{{etudiant.prénom}}</td>
+        </tr>
+    {%endfor%}
+</table>
+{%endblock%}
