@@ -1,16 +1,70 @@
 {%extends 'base.html.twig'%}
 
 {%block body%}
-<table class="table">
-    <th>id</th>
-    <th>nom</th>
-    <th>prenom</th>
-    {%for etudiant in etudiants%}
-        <tr>
-            <td>{{etudiant.id}}</td>
-            <td>{{etudiant.nom}}</td>
-            <td>{{etudiant.prénom}}</td>
-        </tr>
+    {%block stylesheets%}
+        <link rel="stylesheet" href="{{ asset('style.css') }}">
+    {%endblock%}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-info">
+            {{ message }}
+        </div>
     {%endfor%}
-</table>
+<div class="container">
+    <div>
+        <h1>Liste des etudiants</h1>
+        <i class="bi bi-check"></i>
+    </div>
+    <td><a href="{{ path('app_etudiantapp_etudiant_add') }}">Ajouter un etudiant  ✅</a></td>
+    <table class="table">
+
+        <th>nom</th>
+        <th>prenom</th>
+        <th>section</th>
+        {%for etudiant in etudiants%}
+
+            {%if loop.index is odd%}
+            <tr style="background-color: bisque">
+                <td onclick="changeColor(this)">{{etudiant.nom}}</td>
+                <td onclick="changeColor(this)">{{etudiant.prenom}}</td>
+                {%if etudiant.section%}
+                    <td onclick="changeColor(this)">{{etudiant.section.designation}}</td>
+                {%else%}
+                    <td onclick="changeColor(this)">Etudiant non affecte a une section</td>
+                {%endif%}
+                <td onclick="changeColor(this)"><a href="{{ path('app_etudiantapp_etudiant_edit', {id: etudiant.id}) }}">Edit</a></td>
+                <td onclick="changeColor(this)"><a href="{{ path('app_etudiantapp_etudiant_delete', {id: etudiant.id}) }}">Delete</a></td>
+            </tr>
+            {%else%}
+                <tr style="background-color: lightpink">
+
+                    <td onclick="changeColor(this)">{{etudiant.nom}}</td>
+                    <td onclick="changeColor(this)">{{etudiant.prenom}}</td>
+                    {%if etudiant.section%}
+                        <td onclick="changeColor(this)">{{etudiant.section.designation}}</td>
+                    {%else%}
+                        <td onclick="changeColor(this)">Etudiant non affecte a une section</td>
+                    {%endif%}
+                    <td onclick="changeColor(this)"><a href="{{ path('app_etudiantapp_etudiant_edit', {id: etudiant.id}) }}">Edit</a></td>
+                    <td onclick="changeColor(this)"><a href="{{ path('app_etudiantapp_etudiant_delete', {id: etudiant.id}) }}">Delete</a></td>
+                </tr>
+            {%endif%}
+        {%endfor%}
+    </table>
+
+</div>
+
+    <script src="{{  asset('script.js') }}"></script>
+
+
+
 {%endblock%}

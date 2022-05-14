@@ -3,7 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Etudiant;
+use App\Entity\Section;
+use phpDocumentor\Reflection\Types\String_;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,8 +17,9 @@ class EtudiantType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('prénom')
-            ->add('inscription')
+            ->add('prenom')
+            ->add('section')
+
             ->add('submit',SubmitType::class)
         ;
     }

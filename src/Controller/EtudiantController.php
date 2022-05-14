@@ -9,6 +9,7 @@ use App\Form\EtudiantType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
     #[Route('/etudiant', name: 'app_etudiant')]
@@ -38,10 +39,6 @@ class EtudiantController extends AbstractController
 
         $etudiant=new Etudiant();
 
-//        $form=$this->createForm(EtudiantType::class,$etudiant,[
-//            'action'=>$this->generateUrl('app_etudiant_add'),
-//            'method'=>'POST'
-//        ]);
         $form=$this->createForm(EtudiantType::class,$etudiant);
 
         $form->handleRequest($request);
@@ -58,31 +55,30 @@ class EtudiantController extends AbstractController
 
 
     }
-    #[Route('/delete/{id}', name: 'app_etudiant_delete')]
+    #[Route('/delete/{id?0}', name: 'app_etudiant_delete')]
     public function delete(Etudiant $etudiant=null):Response{
         if(!$etudiant){
             $this->addFlash('error','etudiant is not founded');
-            throw  NotFoundHttpException('etudiant not found');
+            throw  new NotFoundHttpException('etudiant not found');
         }
         $this->manager->remove($etudiant);
         $this->manager->flush();
         $this->addFlash('success','etudiant is successfully removed');
-        return $this->redirectToRoute('app_etudiant_show');
+        return $this->redirectToRoute('app_etudiantapp_etudiant_show');
 
 
     }
     #[Route('/edit/{id?0}', name: 'app_etudiant_edit')]
     public function edit(Request $request,Etudiant $etudiant=null):Response{
-        if(!$etudiant)
-            $etudiant=new Etudiant();
+        if(!$etudiant){
 
-        $form=$this->createForm(EtudiantType::class,$etudiant,[
-            'action'=>$this->generateUrl('app_etudiant_add'),
-            'method'=>'POST'
-        ]);
+            $etudiant=new Etudiant();
+        }
+
+        $form=$this->createForm(EtudiantType::class,$etudiant);
 
         $form->handleRequest($request);
-        if($form->isSubmitted()){
+        if($form->isSubmitted() && $form->isValid()){
 
             $this->manager->persist($etudiant);
             $this->manager->flush();

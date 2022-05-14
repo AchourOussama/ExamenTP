@@ -17,10 +17,10 @@ class Etudiant
     private $nom;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private $prénom;
+    private $prenom;
 
     #[ORM\ManyToOne(targetEntity: Section::class, inversedBy: 'etudiants')]
-    private $inscription;
+    private $section;
 
     public function getId(): ?int
     {
@@ -39,27 +39,28 @@ class Etudiant
         return $this;
     }
 
-    public function getPrénom(): ?string
+    public function getPrenom(): ?string
     {
-        return $this->prénom;
+        return $this->prenom;
     }
 
-    public function setPrénom(string $prénom): self
+    public function setPrenom(string $prenom): self
     {
-        $this->prénom = $prénom;
+        $this->prenom = $prenom;
 
         return $this;
     }
 
-    public function getInscription(): ?Section
+    public function getSection(): ?Section
     {
-        return $this->inscription;
+        return $this->section;
     }
 
-    public function setInscription(?Section $inscription): self
+    public function setSection(?Section $section): self
     {
-        $this->inscription = $inscription;
+        $this->section = $section;
 
         return $this;
     }
+
 }
